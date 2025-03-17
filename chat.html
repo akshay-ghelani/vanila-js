@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Application</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <main>
+            <div class="input-group mt-5 mb-3">
+                <input type="text" id="chapter_input" class="form-control" placeholder="Chapter Name">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" id="add_btn">Add</button>
+                </div>
+            </div>
+            <ul id="parentList" class="list-group">
+                <h3 class="emptyMsg">Nothing is here</h3>
+            </ul>
+        </main>
+    </div>
+
+    <script>
+        let addBtn = document.getElementById('add_btn');
+        let parentList = document.getElementById("parentList");
+
+        addBtn.addEventListener('click', addChapter);
+
+        function addChapter() {
+            let inputField = document.getElementById('chapter_input');
+            let inputValue = inputField.value.trim();
+            if (!inputValue) {
+                console.log("Input is empty!");
+                return;
+            }
+
+            if (parentList.children[0] && parentList.children[0].className === "emptyMsg") {
+                parentList.children[0].remove();
+            }
+
+            let newLi = document.createElement('li');
+            newLi.className = "list-group-item d-flex justify-content-between align-items-center";
+            newLi.innerHTML = `
+                <h3>${inputValue}</h3>
+                <div>
+                    <button class="btn btn-warning btn-sm" onclick="editChapter(this)">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="removeChapter(this)">Remove</button>
+                </div>
+            `;
+
+            parentList.appendChild(newLi);
+            inputField.value = '';
+        }
+
+        function removeChapter(currElement) {
+            currElement.closest('li').remove();
+            if (parentList.children.length === 0) {
+                let newEmptyMsg = document.createElement("h3");
+                newEmptyMsg.className = "emptyMsg";
+                newEmptyMsg.textContent = "Nothing is here";
+                parentList.appendChild(newEmptyMsg);
+            }
+        }
+
+        function editChapter(curreditElement) {
+            let parentLi = curreditElement.closest('li');
+            let chapterName = parentLi.querySelector('h3');
+
+            if (curreditElement.textContent === "Done") {
+                curreditElement.textContent = "Edit";
+                let inputField = parentLi.querySelector("input");
+                chapterName.textContent = inputField.value;
+                parentLi.replaceChild(chapterName, inputField);
+            } else {
+                curreditElement.textContent = "Done";
+                let inputField = document.createElement("input");
+                inputField.type = "text";
+                inputField.className = "form-control";
+                inputField.value = chapterName.textContent;
+                parentLi.replaceChild(inputField, chapterName);
+            }
+        }
+    </script>
+</body>
+</html>
