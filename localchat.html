@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD App with localStorage</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        input, button { margin: 5px; }
+    </style>
+</head>
+<body >
+
+    <h2>TODO List (CRUD with localStorage)</h2>
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        // Load tasks from localStorage
+        function loadTasks() {
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = ""; // Clear previous list
+
+            tasks.forEach((task, index) => {
+                let li = document.createElement("li");
+                li.innerHTML = `
+                    ${task} 
+                    <button onclick="editTask(${index})">Edit</button>
+                    <button onclick="deleteTask(${index})">Delete</button>
+                `;
+                taskList.appendChild(li);
+            });
+        }
+
+        // Add a new task
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            if (taskInput.value.trim() !== "") {
+                tasks.push(taskInput.value.trim());
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                taskInput.value = "";
+                loadTasks();
+            }
+        }
+
+        // Edit a task
+        function editTask(index) {
+            let tasks = JSON.parse(localStorage.getItem("tasks"));
+            let newTask = prompt("Edit task:", tasks[index]);
+            if (newTask !== null) {     
+                tasks[index] = newTask;
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                loadTasks();
+            }
+        }
+
+        // Delete a task
+        function deleteTask(index) {
+            let tasks = JSON.parse(localStorage.getItem("tasks"));
+            tasks.splice(index, 1);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            loadTasks();
+        }
+
+        // Initialize list on page load
+        loadTasks();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crud application</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <main>
+            <div class="input-group mt-5 mb-3">
+                <input type="text" id="chapter_input" class="form-control" placeholder="chapter name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button  class="btn btn-success" type="button"  onclick="addlocal()">Button</button>
+                </div>
+              </div>
+              <ul id="paretList" class="list-group">
+               
+              </ul>
+              
+        </main>
+
+    </div>
+    <script>
+
+function loadTasks() {
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  let taskList = document.getElementById("paretList");
+  taskList.innerHTML='';
+
+  tasks.forEach((task, index) => {
+                let li = document.createElement("li");
+                li.innerHTML = `
+                    ${task} 
+                    <button onclick="editTask(${index})">Edit</button>
+                    <button onclick="deleteTask(${index})">Delete</button>
+                `;
+                taskList.appendChild(li);
+            });
+};
+    function addlocal(){
+       let localInput = document.getElementById('chapter_input');
+       let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+       if(localInput.value.trim() !== ""){
+            tasks.push(localInput.value.trim());
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            localInput.value = "";
+            loadTasks();
+       }
+    }
+
+    function editTask(index){
+      let tasks = JSON.parse(localStorage.getItem("tasks"));
+      let newTask = prompt("Edit task:", tasks[index]);
+      if(newTask !==null){
+        tasks[index] = newTask;
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        loadTasks();
+      }
+    }
+
+    function deleteTask(index){
+      let tasks = JSON.parse(localStorage.getItem("tasks"));
+      tasks.splice(index, 1);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      loadTasks();
+
+    }
+    loadTasks();
+    </script>
+
+</body>
+</html>
