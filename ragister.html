@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <form action="" class="mt-5" id="formdata">
+            <label for="">Student Name :</label>
+            <input id="Student_name" type="text" class="form-control mt-2 mb-2 "/>
+            
+            <label for="Student_email">Email :</label>
+            <input id="Student_email" type="text" class="form-control mt-2"/>
+            <br>
+            
+            <!-- <label for="">marks :</label>
+            <label for="">science :</label>
+            <input id="Student_Science" type="text" class="form-control mt-2 col-sm-4"/>
+            <label for="">maths</label>
+            <input id="Student_maths" type="text" class="form-control mt-2 col-sm-4"/>
+            <label for="">english</label>
+            <input id="Student_english" type="text" class="form-control mt-2 col-sm-4"/> -->
+            <p>already account <a href="login.html">login</a></p>
+            <button class="btn btn-primary mt-4 " type="submit">ragister</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('formdata').addEventListener("submit" ,function(e){
+            e.preventDefault()
+            var sname= document.getElementById("Student_name").value;
+            var semail = document.getElementById("Student_email").value;
+            if(localStorage.getItem(sname)){
+                alert("this uder name is already taken")
+                return
+            }
+            localStorage.setItem(sname, semail);
+            alert("succesfully stored");
+            window.location.href= 'login.html';
+        });
+
+
+    </script>
+</body>
+</html>
