@@ -11,9 +11,12 @@
     <script>
         var loggedInUser = localStorage.getItem('loggedInUser');
         function remove(){
+            for (var key in localStorage){
+             console.log(key)
+            }
             localStorage.removeItem("loggedInUser");    
             alert("remove succefully");
-            window.location.href('ragister.html');
+            window.location.href =('ragister.html');
         }
     </script>
 </body>
